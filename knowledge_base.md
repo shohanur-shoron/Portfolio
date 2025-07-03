@@ -186,7 +186,6 @@ this is his contact information
 ---
 
 # **family information**
-and his girlfriend name is Ashrafi Siddika
 his father is a teacher and his mother the queen of the house and he has 1 younger brother
 Last updated: July 1, 2025
 
