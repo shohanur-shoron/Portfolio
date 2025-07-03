@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD. SHOHANUR RAHMAN - Resume</title>
+    <style>
+        /* --- Google Font Import --- */
+        @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+        /* --- Global Styles --- */
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        /* --- Links --- */
+        a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Header & Contact Info --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            color: #2c3e50;
+            letter-spacing: 1px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px 20px;
+            margin-top: 15px;
+            font-size: 0.95em;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .contact-item svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            fill: #555;
+        }
+
+        /* --- Section Styling --- */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            background-color: #4A5568; /* Dark Gray-Blue */
+            color: #fff;
+            padding: 8px 15px;
+            margin: 0 -40px 20px -40px; /* Extend to edges of container */
+            font-size: 1.2em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* --- Entry Styling (for Experience, Projects, Education) --- */
+        .entry {
+            margin-bottom: 20px;
+        }
+        
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 5px;
+        }
+
+        .entry-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #2c3e50;
+        }
+
+        .entry-info {
+            font-style: italic;
+            color: #555;
+        }
+
+        .entry-date {
+            font-weight: bold;
+            color: #4A5568;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+
+        /* --- Lists (ul) --- */
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+        }
+        
+        ul li::before {
+            content: '•';
+            position: absolute;
+            left: 5px;
+            top: 0;
+            font-size: 1.2em;
+            color: #4A5568;
+        }
+
+        /* Nested lists for project features */
+        ul ul {
+            margin-top: 8px;
+            margin-left: 10px;
+        }
+        
+        ul ul li::before {
+            content: '○'; /* Circle bullet for nested items */
+        }
+
+
+        /* --- Specific Section Styles --- */
+        .skills-list {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+        }
+
+        .skills-list strong {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* --- Responsive & Print Styles --- */
+        @media (max-width: 768px) {
+            .resume-container {
+                margin: 0;
+                padding: 20px;
+                border-radius: 0;
+            }
+            .section h2 {
+                margin: 0 -20px 20px -20px;
+            }
+            .entry-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .entry-date {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+            .skills-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background-color: #fff;
+            }
+            .resume-container {
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                border: none;
+            }
+            .section h2 {
+                background-color: #f0f0f0;
+                color: #000;
+                margin: 0 0 15px 0;
+                padding: 5px;
+                border: 1px solid #ddd;
+            }
+            a {
+                color: #000;
+                text-decoration: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="resume-container">
+        <header class="header">
+            <h1>MD. SHOHANUR RAHMAN</h1>
+            <div class="contact-info">
+                <span class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                    DHAKA, BANGLADESH
+                </span>
+                <a href="mailto:shorons38@gmail.com" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                    shorons38@gmail.com
+                </a>
+                <span class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+                    +88 1723-077965
+                </span>
+                <a href="https://www.linkedin.com/in/shohanur-rahman-4a935232a/" target="_blank" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+                    linkedin.com/in/shohanur-rahman
+                </a>
+                <a href="https://github.com/shohanur-shoron" target="_blank" class="contact-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3.3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-23.3 2.6-57.4 0 0 21.9-7.8 71.6 26.3 20.9-6.2 43.7-9.4 66.5-9.4 22.8 0 45.7 3.1 66.5 9.4 49.9-34.1 71.6-26.3 71.6-26.3 13.7 34.1 5.2 50.9 2.6 57.4 16 17.6 23.6 31.4 23.6 58.9 0 96.5-56.6 104.2-112.6 110.5 9.1 7.8 17.2 23.2 17.2 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 389.9 8 244.8 8z"/></svg>
+                    github.com/shohanur-shoron
+                </a> 
+                <br>
+                <a href="https://shohanurrahman.pythonanywhere.com/" target="_blank" class="contact-item">
+                    <!-- add a website svg logo here -->
+                     <svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 256 241" enable-background="new 0 0 256 241" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M254,188V2H2v186h111v29H75v22h106v-22h-38v-29H254z M19,19h217v151H19L19,19z M180.021,70.553 c0,7.395-2.874,14.326-7.987,19.524l-15.467,15.467l0.254-1.31c1.141-6.297,0.423-12.72-2.071-18.594l-0.127-0.254l6.339-6.339 c2.282-2.282,3.508-5.24,3.508-8.452c0-3.212-1.268-6.212-3.508-8.452c-2.282-2.282-5.282-3.508-8.452-3.508 c-3.212,0-6.212,1.268-8.452,3.508l-20.961,20.961c-2.282,2.282-3.508,5.282-3.508,8.452c0,3.212,1.268,6.212,3.508,8.452 c1.521,1.521,3.465,2.62,5.62,3.127l0.718,0.169l-12.002,12.002l-0.296-0.169c-1.859-1.141-3.592-2.493-5.156-4.057 c-5.198-5.24-8.072-12.128-8.072-19.524c0-7.395,2.874-14.326,8.072-19.524l20.961-20.961c5.24-5.198,12.128-8.072,19.524-8.072 c7.353,0,14.284,2.874,19.482,8.072S180.021,63.2,180.021,70.553z M144.101,78.92c5.198,5.198,8.029,12.128,8.029,19.524 c0,7.395-2.874,14.326-8.072,19.524l-20.961,20.961C117.9,144.126,110.97,147,103.574,147c-7.395,0-14.326-2.874-19.524-8.072 c-5.198-5.24-8.072-12.128-8.072-19.524s2.874-14.326,8.072-19.524l15.467-15.467l-0.254,1.31 c-1.141,6.297-0.423,12.72,2.071,18.594l0.127,0.254l-6.339,6.339c-2.282,2.282-3.508,5.282-3.508,8.452 c0,3.212,1.268,6.212,3.508,8.452c2.282,2.282,5.282,3.508,8.452,3.508c3.212,0,6.212-1.268,8.452-3.508l20.961-20.961 c4.649-4.649,4.649-12.213,0-16.861c-1.521-1.521-3.465-2.62-5.62-3.127l-0.718-0.169l12.002-12.002l0.296,0.169 C140.805,76.004,142.537,77.399,144.101,78.92z"></path> </g></svg>
+                    shohanurrahman.com
+                </a>
+            </div>
+        </header>
+
+        <section class="section">
+            <h2>Professional Summary</h2>
+            <p>
+                Backend Developer and Computer Science student with hands-on experience in Python, Django, and AI/ML. Proven ability to build and deploy intelligent applications, including a published PyPI library for NLP and a full-stack project utilizing LLMs. Eager to contribute to building scalable, data-driven systems in a dynamic development role.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Technical Skills</h2>
+            <div class="skills-list">
+                <strong>Backend:</strong> <span>Python (Django, DRF), REST, JWT Auth, JavaFX</span>
+                <strong>Frontend:</strong> <span>JavaScript, HTML5, CSS3</span>
+                <strong>DevOps & Tools:</strong> <span>Git, GitHub, Linux</span>
+                <strong>AI/ML:</strong> <span>Scikit-Learn, Pandas, Numpy</span>
+                <strong>Databases:</strong> <span>SQLite, MySQL</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Professional Experience</h2>
+            <div class="entry">
+                <div class="entry-header">
+                    <div>
+                        <div class="entry-title">Backend Developer</div>
+                        <div class="entry-info">Eutropia IT Solution, Dhaka</div>
+                    </div>
+                    <div class="entry-date">Jan 2024 - July 2024</div>
+                </div>
+                <ul>
+                    <li>Created RESTful APIs to connect client websites with their data sources.</li>
+                    <li>Added data dashboards to Django admin (blog views, popular content, etc.).</li>
+                    <li>Built reports to track top-performing content and trends.</li>
+                    <li>Ensured APIs delivered accurate, real-time data.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Projects and Research</h2>
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Project: BookVerse</div>
+                    <div class="entry-date">Issued On: April 29, 2025</div>
+                </div>
+                <ul>
+                    <li>Advanced web app using AI for intelligent book discovery.</li>
+                    <li>Key features include:
+                        <ul>
+                            <li>Personalized Book Recommendations</li>
+                            <li>Interactive Interest Refinement with LLM Chatbot</li>
+                            <li>AI Assistant with Function Calling for Account Management</li>
+                            <li>Visual Book Search via Cover Image</li>
+                            <li>Reading Status Tracker</li>
+                            <li>Comment Sentiment Analysis</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                    <div class="entry-title">Publication: Bangla Normalizer</div>
+                    <div class="entry-date">Issued On: June 5, 2025</div>
+                </div>
+                <ul>
+                    <li>URL: <a href="https://pypi.org/project/bangla-normalizer/" target="_blank">https://pypi.org/project/bangla-normalizer/</a></li>
+                    <li>Key features include:
+                        <ul>
+                            <li>A Python library (PyPI) standardizing diverse Bengali text—numbers, dates, currency, and nine other categories—into consistent Bangla word forms or IPA, enhancing NLP preprocessing and analysis.</li>
+                            <li>Installation: <code>pip install bangla-normalizer</code></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-header">
+                     <div class="entry-title">Research Paper: High-Capacity DWDM Transmission System for Free-Space Optical Network</div>
+                     <div class="entry-date">Issued On: 2024</div>
+                </div>
+                 <ul>
+                     <li>URL: <a href="https://ieeexplore.ieee.org/abstract/document/10815671" target="_blank">https://ieeexplore.ieee.org/abstract/document/10815671</a></li>
+                     <li>Designed a high-capacity FSO communication system using DWDM with 1.28 Tb/s across 64 channels (20 Gbps each).</li>
+                     <li>Implemented RZ coding over a 2 km FSO link; analyzed beam divergence, atmospheric attenuation, BER, Q-factor, and eye diagrams for reliable high-speed optical-wireless networks.</li>
+                 </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Education</h2>
+            <div class="entry">
+                 <div class="entry-header">
+                     <div>
+                        <div class="entry-title">B.Sc. in Computer Science & Engineering, University of Asia Pacific</div>
+                        <div class="entry-info">Result: CGPA 3.58</div>
+                     </div>
+                     <div class="entry-date">Expected Graduation: Dec 2025</div>
+                 </div>
+            </div>
+            <div class="entry">
+                <div class="entry-header">
+                    <div>
+                       <div class="entry-title">HSC in Shahid Mamun Mahmud Police Line School & College</div>
+                       <div class="entry-info">Result: CGPA 4.95</div>
+                    </div>
+                    <div class="entry-date">2020</div>
+                </div>
+           </div>
+           <div class="entry">
+            <div class="entry-header">
+                <div>
+                   <div class="entry-title">SSC in Chandai High School</div>
+                   <div class="entry-info">Result: CGPA 4.78</div>
+                </div>
+                <div class="entry-date">2018</div>
+            </div>
+       </div>
+        </section>
+
+        <section class="section">
+            <h2>Additional Information</h2>
+            <div class="entry">
+                <div class="entry-title">Languages:</div>
+                <ul>
+                    <li>Bengali (Native)</li>
+                    <li>English (Professional)</li>
+                </ul>
+            </div>
+            <div class="entry">
+                <div class="entry-title">Honors & Activities:</div>
+                <ul>
+                    <li>1st Runner-Up: Hackathon at RoboExpo (2025)</li>
+                    <li>Dean's Award and VC Award</li>
+                    <li>Participant: National Data Analytics Competition NDAC (2025)</li>
+                    <li>Participant: National Hackathon in EWU (2024)</li>
+                </ul>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
