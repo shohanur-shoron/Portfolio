@@ -133,45 +133,77 @@ commandInput.addEventListener('keydown', function(event) {
         if (commandText.toLowerCase() === 'chat') {
             isChatMode = true;
             updatePrompt();
-            handleBackendCommand(commandText);
-        } else {
-            handleBackendCommand(commandText);
         }
+        // MODIFIED: All non-chat commands now go through the same handler
+        handleBackendCommand(commandText);
     }
 });
 
 
 // =======================================================================
-// --- API HANDLERS (Unchanged - works on all devices) ---
+// --- API HANDLERS ---
 // =======================================================================
 
+// --- NEW: REFACTORED BACKEND COMMAND HANDLER WITH TYPEWRITER EFFECT ---
 function handleBackendCommand(command) {
     commandInput.disabled = true;
 
     const responseContainer = document.createElement('div');
     responseContainer.classList.add('contenttext');
     contentBox.appendChild(responseContainer);
+
+    // Add a temporary placeholder while waiting for the server
+    responseContainer.innerHTML = '...';
     scrollToBottom();
 
     const apiUrl = `/api/terminal/?command=${encodeURIComponent(command)}`;
     const eventSource = new EventSource(apiUrl);
 
+    let fullResponseContent = '';
+    let responseType = 'text';
+
     eventSource.onmessage = function(event) {
         if (event.data === '[DONE]') {
             eventSource.close();
-            commandInput.disabled = false;
-            commandInput.focus();
+
+            const onComplete = () => {
+                commandInput.disabled = false;
+                commandInput.focus();
+            };
+
+            // Now that we have the full response, decide how to type it out
+            if (responseType === 'html') {
+                // For HTML, type out the plain text version, then swap in the real HTML
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = fullResponseContent;
+                const textToType = tempDiv.textContent || tempDiv.innerText || '';
+
+                const onHtmlTypingComplete = () => {
+                    responseContainer.innerHTML = fullResponseContent; // Set final HTML
+                    scrollToBottom();
+                    onComplete(); // Re-enable input
+                };
+                
+                // Use a slightly slower speed for readability
+                typewriterEffect(responseContainer, textToType, 5, onHtmlTypingComplete);
+
+            } else {
+                // For plain text, just type it out directly
+                typewriterEffect(responseContainer, fullResponseContent, 5, onComplete);
+            }
             return;
         }
 
-        const data = JSON.parse(event.data);
-
-        if (data.type === 'html') {
-            responseContainer.innerHTML = data.content;
-        } else {
-            responseContainer.innerText = data.content;
+        // Backend commands send their payload in one go. We just need to store it.
+        try {
+            const data = JSON.parse(event.data);
+            fullResponseContent = data.content;
+            responseType = data.type;
+        } catch (e) {
+            console.error("Failed to parse backend command response:", e);
+            fullResponseContent = "Error: Malformed response from server.";
+            responseType = 'text';
         }
-        scrollToBottom();
     };
 
     eventSource.onerror = function(err) {
@@ -185,6 +217,57 @@ function handleBackendCommand(command) {
 }
 
 
+// =======================================================================
+// --- MODIFIED TYPEWRITER EFFECT (WORD-BY-WORD) ---
+// =======================================================================
+
+/**
+ * Simulates a typewriter effect by displaying text word-by-word.
+ * @param {HTMLElement} element - The DOM element to type into.
+ * @param {string} text - The full text to be typed out.
+ * @param {number} speed - The delay in milliseconds between each WORD.
+ * @param {function} onComplete - A callback function to run when typing is finished.
+ * @param {object} [options={}] - Optional settings.
+ * @param {boolean} [options.useMarkdown=false] - If true, parses text with marked.js.
+ */
+function typewriterEffect(element, text, speed, onComplete, options = {}) {
+    const { useMarkdown = false } = options;
+    const words = text.split(' ');
+    let i = 0;
+    element.innerHTML = ""; // Clear the element to remove any placeholder.
+
+    function type() {
+        if (i < words.length) {
+            const currentText = words.slice(0, i + 1).join(' ');
+
+            try {
+                if (useMarkdown) {
+                     element.innerHTML = typeof marked !== 'undefined'
+                        ? marked.parse(currentText)
+                        : currentText.replace(/\n/g, '<br>');
+                } else {
+                    // For plain text or stripped HTML, just render line breaks
+                    element.innerHTML = currentText.replace(/\n/g, '<br>');
+                }
+            } catch (e) {
+                console.error("Typing effect failed:", e);
+                element.innerText = currentText; // Fallback to plain text
+            }
+
+            i++;
+            scrollToBottom(); // Keep the content in view as it types
+            setTimeout(type, speed);
+        } else {
+            if (onComplete) {
+                onComplete();
+            }
+        }
+    }
+    type();
+}
+
+
+// --- MODIFIED CHAT HANDLER (to use the new typewriter option) ---
 function handleChat(message) {
     commandInput.disabled = true;
 
@@ -192,64 +275,40 @@ function handleChat(message) {
     responseContainer.classList.add('contenttext', 'ai-response');
     contentBox.appendChild(responseContainer);
 
-    // --- CHANGE #1: INSTANTLY SHOW "THINKING" MESSAGE ---
-    // Add this line to immediately display feedback to the user.
     responseContainer.innerHTML = '<i>AI is thinking...</i>';
-
-    scrollToBottom(); // Scroll down to show the new "thinking" message
+    scrollToBottom();
 
     const chatApiUrl = `/api/chat/?message=${encodeURIComponent(message)}`;
     const eventSource = new EventSource(chatApiUrl);
 
     let fullResponse = '';
-    let isFirstChunk = true; // Helper to know when to replace the "thinking" message
 
     eventSource.onmessage = function(event) {
         if (event.data === '[DONE]') {
-            // The final markdown parsing is now handled on each chunk, so we just need to clean up.
-            scrollToBottom();
             eventSource.close();
-            commandInput.disabled = false;
-            commandInput.focus();
+
+            const onTypingComplete = () => {
+                commandInput.disabled = false;
+                commandInput.focus();
+            };
+
+            // MODIFIED: Call the typewriter with the useMarkdown option
+            typewriterEffect(responseContainer, fullResponse, 7, onTypingComplete, { useMarkdown: true });
+
             return;
         }
 
-
         const data = JSON.parse(event.data);
-
-        // --- CHANGE #2: SIMPLIFY THE SWITCH STATEMENT ---
-        switch (data.type) {
-            // The 'loading' case is no longer needed from the backend.
-            case 'chunk':
-                if (data.content) {
-                    if (isFirstChunk) {
-                        fullResponse = ''; // Clear any previous content (like the thinking message)
-                        isFirstChunk = false;
-                    }
-                    fullResponse += data.content;
-                    // For a better live experience, parse markdown on every chunk.
-                    responseContainer.innerHTML = typeof marked !== 'undefined'
-                        ? marked.parse(fullResponse)
-                        : fullResponse.replace(/\n/g, '<br>');
-
-                    scrollToBottom();
-                }
-                break;
-
-            case 'error':
-                if (data.content) {
-                    responseContainer.innerHTML = fullResponse + data.content; // Show error
-                    eventSource.close();
-                    commandInput.disabled = false;
-                    commandInput.focus();
-                }
-                break;
+        if (data.type === 'chunk' && data.content) {
+            fullResponse += data.content;
+        } else if (data.type === 'error' && data.content) {
+            fullResponse += data.content;
+            eventSource.close();
         }
     };
 
     eventSource.onerror = function(err) {
         console.error("Chat EventSource failed:", err);
-        // If the server fails to connect, replace the "thinking" message with an error.
         responseContainer.innerHTML = `<span class="redtext">Error: Lost connection to the chat server.</span>`;
         scrollToBottom();
         eventSource.close();
