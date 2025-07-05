@@ -283,6 +283,10 @@ body {
         padding: 10px; /* Slightly adjust padding for smaller screens */
     }
 
+    #ascii-art{
+        font-size: 0.7rem;
+    }
+
     /* Adjust font sizes for better readability on small devices */
     .midiumfont, #commands, .oldcommands, .contentbox .contenttext {
         font-size: 0.8rem;
