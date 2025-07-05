@@ -28,6 +28,32 @@ body {
     display: none;
 }
 
+/* New styles for the input wrapper and suggestion text */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    flex-grow: 1;
+}
+
+#commands {
+    position: relative; /* To ensure it sits on top of the suggestion */
+    z-index: 2;
+    background-color: transparent; /* Make sure the background is clear to see the suggestion */
+}
+
+.suggestion {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 1.2rem;
+    z-index: 1;
+    color: rgba(0, 255, 0, 0.4); /* Semi-transparent green */
+    pointer-events: none; /* Allows clicks to pass through to the input */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+
 /* --- Terminal Container Styling --- */
 #terminal {
     position: absolute;
@@ -259,6 +285,10 @@ body {
 
     /* Adjust font sizes for better readability on small devices */
     .midiumfont, #commands, .oldcommands, .contentbox .contenttext {
+        font-size: 0.8rem;
+    }
+
+    #suggestion-text {
         font-size: 0.8rem;
     }
 }

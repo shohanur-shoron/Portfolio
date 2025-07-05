@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from django.http import StreamingHttpResponse
+from django.http import StreamingHttpResponse, JsonResponse
 from django.conf import settings
 from .models import Commands
 
@@ -71,6 +71,18 @@ def terminal_api(request):
 
 
 # --- RAG-Powered Chat Streaming Function ---
+
+def get_all_commands(request):
+    
+    command_names = list(Commands.objects.values_list('name', flat=True).distinct())
+    
+    predefined_commands = ['help', 'dir', 'chat', 'quit', 'clear', 'cls']
+    command_names.extend(predefined_commands)
+    
+    command_names = sorted(list(set(command_names)))
+    
+    return JsonResponse(command_names, safe=False)
+
 
 def stream_rag_chat_response(message):
     # start_loading_payload = {"type": "loading", "content": True}

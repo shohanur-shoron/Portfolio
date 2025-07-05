@@ -29,6 +29,14 @@
             <!-- Main content area of the terminal -->
             <div id="terminal-body">
                 <div class="terminal_content">
+                    <pre id="ascii-art" class="redtext">
+   _____   _    _    ____    _____     ____    _   _ 
+  / ____| | |  | |  / __ \  |  __ \   / __ \  | \ | |
+ | (___   | |__| | | |  | | | |__) | | |  | | |  \| |
+  \___ \  |  __  | | |  | | |  _  /  | |  | | | . ` |
+  ____) | | |  | | | |__| | | | \ \  | |__| | | |\  |
+ |_____/  |_|  |_|  \____/  |_|  \_\  \____/  |_| \_|
+                    </pre>
                     <p class="midiumfont">Welcome to Shohanur Rahman Shoron's Terminal! Type '<span class="redtext">help</span>' to see available commands.</p>
                     <p class="phoneMood midiumfont">you are in phone mood use key <span class="redtext">Go</span> or <span class="redtext">enter</span> after you write a command</p>
                     <div class="contentbox">
@@ -37,10 +45,14 @@
                     </div>
                 </div>
 
-                <div class="inputbox">
-                    <span class="midiumfont dir" id="dirtext">shoron@portfolio: ~</span>
-    <!--                (<span style="color: white;">chat</span>)-->
-                    <input type="text" name="commands" id="commands" >
+                <div class="input-container">
+                    <div class="inputbox">
+                        <span class="midiumfont dir" id="dirtext">shoron@portfolio: ~</span>
+                        <div class="input-wrapper">
+                            <input type="text" name="commands" id="commands" autocomplete="off" spellcheck="false">
+                            <span id="suggestion-text" class="suggestion"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 

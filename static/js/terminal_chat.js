@@ -11,6 +11,13 @@ const dirText = document.getElementById('dirtext');
 
 // --- STATE MANAGEMENT (runs on all devices) ---
 let isChatMode = false;
+let commandHistory = [];
+let historyIndex = -1;
+let availableCommands = [];
+let currentSuggestion = '';
+
+// --- DOM Element Selection ---
+const suggestionText = document.getElementById("suggestion-text");
 
 
 // =======================================================================
@@ -94,48 +101,125 @@ function updatePrompt() {
     }
 }
 
-// --- MAIN COMMAND INPUT HANDLER ---
-commandInput.addEventListener('keydown', function(event) {
-    if (event.key !== 'Enter') return;
-    event.preventDefault();
-
-    const commandText = commandInput.value.trim();
-    if (commandText === '') return;
-
-    // Echo the user's command to the terminal with the correct prompt
-    const oldCommand = document.createElement('div');
-    oldCommand.classList.add('oldcommands');
-    oldCommand.innerHTML = `<span class="dir">${dirText.innerHTML}</span> ${commandText}`;
-    contentBox.appendChild(oldCommand);
-
-    commandInput.value = '';
-    scrollToBottom();
-
-    // --- MODE SWITCHING AND COMMAND ROUTING ---
-    if (commandText.toLowerCase() === 'cls' || commandText.toLowerCase() === 'clear') {
-        contentBox.innerHTML = '';
-        return;
-    }
-
-    if (isChatMode) {
-        if (commandText.toLowerCase() === 'quit') {
-            isChatMode = false;
-            updatePrompt();
-            const exitMessage = document.createElement('div');
-            exitMessage.classList.add('contenttext');
-            exitMessage.innerHTML = "Exited chat mode.";
-            contentBox.appendChild(exitMessage);
-            scrollToBottom();
-        } else {
-            handleChat(commandText);
+// --- FETCH AVAILABLE COMMANDS FOR AUTOCOMPLETE ---
+async function fetchCommands() {
+    try {
+        const response = await fetch('/api/commands/');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        availableCommands = await response.json();
+        console.log("Available commands loaded:", availableCommands);
+    } catch (error) {
+        console.error("Could not fetch commands for autocomplete:", error);
+        // Fallback commands
+        availableCommands = ['help', 'chat', 'clear', 'quit', 'projects', 'skills', 'contact', 'summary'];
+    }
+}
+
+function updateSuggestion() {
+    const inputText = commandInput.value;
+    if (isChatMode || inputText === '') {
+        currentSuggestion = '';
     } else {
-        if (commandText.toLowerCase() === 'chat') {
-            isChatMode = true;
-            updatePrompt();
+        const matchingCommands = availableCommands.filter(cmd => cmd.startsWith(inputText.toLowerCase()));
+        if (matchingCommands.length === 1 && matchingCommands[0] !== inputText) {
+            currentSuggestion = matchingCommands[0];
+        } else {
+            currentSuggestion = '';
         }
-        handleBackendCommand(commandText);
     }
+    suggestionText.textContent = currentSuggestion;
+}
+
+// --- MAIN COMMAND INPUT HANDLER ---
+commandInput.addEventListener('input', updateSuggestion);
+
+commandInput.addEventListener('keydown', function(event) {
+    // --- AUTOCOMPLETION LOGIC ---
+    if ((event.key === 'Tab' || event.key === 'ArrowRight') && currentSuggestion) {
+        event.preventDefault();
+        commandInput.value = currentSuggestion;
+        updateSuggestion();
+        return; // Stop further processing
+    }
+
+    // --- COMMAND HISTORY LOGIC ---
+    if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (historyIndex < commandHistory.length - 1) {
+            historyIndex++;
+            commandInput.value = commandHistory[historyIndex];
+            updateSuggestion();
+        }
+    }
+
+    if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        if (historyIndex > 0) {
+            historyIndex--;
+            commandInput.value = commandHistory[historyIndex];
+        } else {
+            historyIndex = -1;
+            commandInput.value = '';
+        }
+        updateSuggestion();
+    }
+
+    // --- SUBMIT COMMAND ---
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const commandText = commandInput.value.trim();
+        if (commandText === '') return;
+
+        // Add to history
+        if (commandText !== commandHistory[0]) {
+            commandHistory.unshift(commandText);
+        }
+        historyIndex = -1;
+        currentSuggestion = '';
+        suggestionText.textContent = '';
+
+        // Echo command and process
+        const oldCommand = document.createElement('div');
+        oldCommand.classList.add('oldcommands');
+        oldCommand.innerHTML = `<span class="dir">${dirText.innerHTML}</span> ${commandText}`;
+        contentBox.appendChild(oldCommand);
+
+        commandInput.value = '';
+        scrollToBottom();
+
+        if (commandText.toLowerCase() === 'cls' || commandText.toLowerCase() === 'clear') {
+            contentBox.innerHTML = '';
+            return;
+        }
+
+        if (isChatMode) {
+            if (commandText.toLowerCase() === 'quit') {
+                isChatMode = false;
+                updatePrompt();
+                const exitMessage = document.createElement('div');
+                exitMessage.classList.add('contenttext');
+                exitMessage.innerHTML = "Exited chat mode.";
+                contentBox.appendChild(exitMessage);
+                scrollToBottom();
+            } else {
+                handleChat(commandText);
+            }
+        } else {
+            if (commandText.toLowerCase() === 'chat') {
+                isChatMode = true;
+                updatePrompt();
+            }
+            handleBackendCommand(commandText);
+        }
+    }
+});
+
+// --- INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', () => {
+    fetchCommands();
+    commandInput.focus();
 });
 
 
