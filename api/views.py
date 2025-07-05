@@ -1,5 +1,6 @@
 import json
 import os
+import time
 from django.http import StreamingHttpResponse
 from django.conf import settings
 from .models import Commands
@@ -76,8 +77,8 @@ def stream_rag_chat_response(message):
     # yield f"data: {json.dumps(start_loading_payload)}\n\n"
 
     try:
-        # 1. Initialize Models and Load Index
-        llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", google_api_key=settings.API_KEY,
+        # 1. Initialize Models and Load Index 1. gemma-3-27b-it    2.   gemini-2.5-flash-lite-preview-06-17
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite-preview-06-17", google_api_key=settings.API_KEY,
                                      convert_system_message_to_human=True)
         embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=settings.API_KEY)
 
@@ -117,6 +118,7 @@ def stream_rag_chat_response(message):
         for chunk in rag_chain.stream(message):
             payload_obj = {"type": "chunk", "content": chunk}
             yield f"data: {json.dumps(payload_obj)}\n\n"
+
 
     except FileNotFoundError:
         error_payload = {"type": "error",
