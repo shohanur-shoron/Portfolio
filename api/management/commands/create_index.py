@@ -67,7 +67,6 @@ class Command(BaseCommand):
         self.stdout.write("="*50 + "\n")
 
 
-        # --- Stage 5: Create and Save the Vector Store ---
         self.stdout.write("Initializing Google Generative AI embeddings model...")
         embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=settings.API_KEY)
 
