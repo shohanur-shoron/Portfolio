@@ -134,7 +134,6 @@ commandInput.addEventListener('keydown', function(event) {
             isChatMode = true;
             updatePrompt();
         }
-        // MODIFIED: All non-chat commands now go through the same handler
         handleBackendCommand(commandText);
     }
 });
@@ -144,7 +143,6 @@ commandInput.addEventListener('keydown', function(event) {
 // --- API HANDLERS ---
 // =======================================================================
 
-// --- NEW: REFACTORED BACKEND COMMAND HANDLER WITH TYPEWRITER EFFECT ---
 function handleBackendCommand(command) {
     commandInput.disabled = true;
 
@@ -183,7 +181,7 @@ function handleBackendCommand(command) {
                     scrollToBottom();
                     onComplete(); // Re-enable input
                 };
-                
+
                 // Use a slightly slower speed for readability
                 typewriterEffect(responseContainer, textToType, 5, onHtmlTypingComplete);
 
@@ -218,7 +216,7 @@ function handleBackendCommand(command) {
 
 
 // =======================================================================
-// --- MODIFIED TYPEWRITER EFFECT (WORD-BY-WORD) ---
+// --- TYPEWRITER EFFECT (WORD-BY-WORD) ---
 // =======================================================================
 
 /**
@@ -267,7 +265,9 @@ function typewriterEffect(element, text, speed, onComplete, options = {}) {
 }
 
 
-// --- MODIFIED CHAT HANDLER (to use the new typewriter option) ---
+// =======================================================================
+// --- CHAT HANDLER ---
+// =======================================================================
 function handleChat(message) {
     commandInput.disabled = true;
 
