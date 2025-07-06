@@ -132,6 +132,10 @@ To exit chat mode, type `quit`.
 
 ![image](https://github.com/user-attachments/assets/ca18c222-6356-4144-bb14-5e846e079149)
 ![image](https://github.com/user-attachments/assets/f37fca26-e679-4bf8-a20f-bbcb7ad681b8)
+![image](https://github.com/user-attachments/assets/f5fd40ac-8263-4d8d-9eb7-b53b361f3078)
+![image](https://github.com/user-attachments/assets/753af032-ccaf-4f36-97d2-46d1b9360ded)
+
+
 
 
 ## 🚀 Future Improvements
