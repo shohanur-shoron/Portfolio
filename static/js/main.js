@@ -1,4 +1,7 @@
-// --- START OF FILE terminal_chat.js (Consolidated) ---
+// static/js/main.js
+
+import { applyTheme, loadSavedTheme, getThemeListHtml, getAvailableThemes } from './theme_manager.js';
+import { fetchAvailableCommands, handleBackendCommand, handleChat } from './api_service.js';
 
 // --- DOM Element Selection (runs on all devices) ---
 const terminal = document.getElementById("terminal");
@@ -18,136 +21,7 @@ let availableCommands = [];
 let currentSuggestion = '';
 
 // =======================================================================
-// --- THEME MANAGER LOGIC (from theme_manager.js) ---
-// =======================================================================
-const THEMES = ['matrix', 'solarized', 'amber', 'retro', 'vaporwave', 'light', 'monokai', 'dracula', 'high-contrast'];
-const LOCAL_STORAGE_THEME_KEY = 'terminal-theme';
-
-function applyTheme(themeName) {
-    if (!THEMES.includes(themeName)) {
-        console.warn(`Theme "${themeName}" not found. Applying default 'matrix' theme.`);
-        themeName = 'matrix'; // Fallback to default
-    }
-    document.body.className = `theme-${themeName}`;
-    localStorage.setItem(LOCAL_STORAGE_THEME_KEY, `theme-${themeName}`);
-}
-
-function loadSavedTheme() {
-    const savedThemeClass = localStorage.getItem(LOCAL_STORAGE_THEME_KEY);
-    if (savedThemeClass) {
-        const themeName = savedThemeClass.replace('theme-', '');
-        applyTheme(themeName);
-    } else {
-        applyTheme('matrix'); // Apply default theme if none saved
-    }
-}
-
-function getThemeListHtml() {
-    let outputHtml = 'Available themes:<br><ul>';
-    THEMES.forEach(theme => {
-        outputHtml += `<li>${theme}</li>`;
-    });
-    outputHtml += '</ul>';
-    return outputHtml;
-}
-
-function getAvailableThemes() {
-    return THEMES;
-}
-
-// =======================================================================
-// --- API SERVICE LOGIC (from api_service.js) ---
-// =======================================================================
-
-async function fetchAvailableCommands() {
-    try {
-        const response = await fetch('/api/commands/');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Could not fetch commands for autocomplete:", error);
-        return ['help', 'chat', 'clear', 'quit', 'theme', 'projects', 'skills', 'contact', 'summary'];
-    }
-}
-
-function handleBackendCommand(command, responseContainer, onComplete) {
-    responseContainer.innerHTML = '...';
-
-    const apiUrl = `/api/terminal/?command=${encodeURIComponent(command)}`;
-    const eventSource = new EventSource(apiUrl);
-
-    let fullResponseContent = '';
-    let responseType = 'text';
-
-    eventSource.onmessage = function(event) {
-        if (event.data === '[DONE]') {
-            eventSource.close();
-            if (onComplete) onComplete(fullResponseContent, responseType);
-            return;
-        }
-
-        try {
-            const data = JSON.parse(event.data);
-            fullResponseContent = data.content;
-            responseType = data.type;
-        } catch (e) {
-            console.error("Failed to parse backend command response:", e);
-            fullResponseContent = "Error: Malformed response from server.";
-            responseType = 'text';
-        }
-    };
-
-    eventSource.onerror = function(err) {
-        console.error("Terminal EventSource failed:", err);
-        responseContainer.innerHTML = `<span class="redtext">Error: Could not connect to the server.</span>`;
-        eventSource.close();
-        if (onComplete) onComplete("", "error");
-    };
-}
-
-function handleChat(message, responseContainer, onComplete, onChunk) {
-    responseContainer.innerHTML = '<i>AI is thinking...</i>';
-
-    const chatApiUrl = `/api/chat/?message=${encodeURIComponent(message)}`;
-    const eventSource = new EventSource(chatApiUrl);
-
-    let fullResponse = '';
-
-    eventSource.onmessage = function(event) {
-        if (event.data === '[DONE]') {
-            eventSource.close();
-            if (onComplete) onComplete(fullResponse);
-            return;
-        }
-
-        try {
-            const data = JSON.parse(event.data);
-            if (data.type === 'chunk' && data.content) {
-                fullResponse += data.content;
-                if (onChunk) onChunk(data.content);
-            } else if (data.type === 'error' && data.content) {
-                fullResponse += data.content;
-                eventSource.close();
-            }
-        } catch (e) {
-            console.error("Failed to parse chat response chunk:", e);
-            fullResponse += "Error: Malformed response from server.";
-            eventSource.close();
-        }
-    };
-
-    eventSource.onerror = function(err) {
-        console.error("Chat EventSource failed:", err);
-        responseContainer.innerHTML = `<span class="redtext">Error: Lost connection to the chat server.</span>`;
-        eventSource.close();
-        if (onComplete) onComplete("");
-    };
-}
-
-// =======================================================================
-// --- MODIFIED: Draggable and Resizable Logic ONLY for DESKTOP (from main.js) ---
+// --- MODIFIED: Draggable and Resizable Logic ONLY for DESKTOP ---
 // =======================================================================
 if (window.matchMedia("(min-width: 769px)").matches) {
     let isDragging = false;
@@ -196,7 +70,7 @@ if (window.matchMedia("(min-width: 769px)").matches) {
 }
 
 // =======================================================================
-// --- CORE LOGIC (runs on ALL devices: Desktop and Mobile) (from main.js) ---
+// --- CORE LOGIC (runs on ALL devices: Desktop and Mobile) ---
 // =======================================================================
 
 // --- FOCUS LOGIC ---
@@ -224,10 +98,10 @@ function updateSuggestion() {
         currentSuggestion = '';
     } else {
         const lowerInput = inputText.toLowerCase();
-        const availableThemes = getAvailableThemes();
+        const availableThemes = getAvailableThemes(); // Get themes from theme_manager
 
         if (lowerInput.startsWith('theme ')) {
-            const themePartial = lowerInput.substring(6);
+            const themePartial = lowerInput.substring(6); // Get text after "theme "
             const matchingThemes = availableThemes.filter(theme => theme.startsWith(themePartial));
 
             if (matchingThemes.length === 1) {
@@ -312,10 +186,10 @@ commandInput.addEventListener('keydown', function(event) {
         // --- THEME COMMAND LOGIC ---
         if (commandText.toLowerCase().startsWith('theme')) {
             const parts = commandText.split(' ');
-            const themeAction = parts[1];
+            const themeAction = parts[1]; // Could be a theme name or '--list'
 
             if (themeAction && getAvailableThemes().includes(themeAction)) {
-                applyTheme(themeAction);
+                applyTheme(themeAction); // Use applyTheme from theme_manager
                 const successMsg = document.createElement('div');
                 successMsg.classList.add('contenttext');
                 successMsg.innerHTML = `Theme changed to ${themeAction}.`;
@@ -340,12 +214,11 @@ commandInput.addEventListener('keydown', function(event) {
                 contentBox.appendChild(exitMessage);
                 scrollToBottom();
             } else {
-                const responseContainer = document.createElement('div');
-                responseContainer.classList.add('contenttext', 'ai-response');
-                contentBox.appendChild(responseContainer);
-                scrollToBottom(); // Scroll to show the thinking message
-
-                handleChat(commandText, responseContainer, (fullResponse) => {
+                // Call handleChat from api_service
+                handleChat(commandText, document.createElement('div'), (fullResponse) => {
+                    const responseContainer = document.createElement('div');
+                    responseContainer.classList.add('contenttext', 'ai-response');
+                    contentBox.appendChild(responseContainer);
                     typewriterEffect(responseContainer, fullResponse, 7, () => {
                         commandInput.disabled = false;
                         commandInput.focus();
@@ -360,6 +233,7 @@ commandInput.addEventListener('keydown', function(event) {
                 isChatMode = true;
                 updatePrompt();
             }
+            // Call handleBackendCommand from api_service
             handleBackendCommand(commandText, document.createElement('div'), (fullResponseContent, responseType) => {
                 const responseContainer = document.createElement('div');
                 responseContainer.classList.add('contenttext');
@@ -425,7 +299,7 @@ function typewriterEffect(element, text, speed, onComplete, options = {}) {
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', async () => {
-    loadSavedTheme();
-    availableCommands = await fetchAvailableCommands();
+    loadSavedTheme(); // Load theme from theme_manager
+    availableCommands = await fetchAvailableCommands(); // Fetch commands from api_service
     commandInput.focus();
 });

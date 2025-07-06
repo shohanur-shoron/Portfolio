@@ -1,6 +1,134 @@
 /* --- START OF FILE terminal_bass.css --- */
 
-*{
+/* --- CSS VARIABLES & THEME DEFINITIONS --- */
+:root, .theme-matrix {
+    --body-background-color: #1a1c1d; /* Default page background */
+    --background-color: #000000; /* Pure black for terminal background */
+    --response-text-color: #00ff00;
+    --command-color: #00c700; /* A slightly darker green for commands */
+    --header-color: #3c3c3c;
+    --border-color: #00ff00;
+    --shadow-color: rgba(0, 255, 0, 0.5);
+    --red-text-color: #ff5f56;
+    --suggestion-color: rgba(0, 255, 0, 0.4);
+    --scrollbar-thumb-color: #00ff00;
+    --scrollbar-track-color: #f1f1f1;
+}
+
+.theme-solarized {
+    --body-background-color: #001e26;
+    --background-color: #002b36;
+    --response-text-color: #839496;
+    --command-color: #93a1a1; /* A slightly brighter grey for commands */
+    --header-color: #073642;
+    --border-color: #268bd2;
+    --shadow-color: rgba(38, 139, 210, 0.4);
+    --red-text-color: #dc322f;
+    --suggestion-color: rgba(131, 148, 150, 0.4);
+    --scrollbar-thumb-color: #268bd2;
+    --scrollbar-track-color: #002b36;
+}
+
+.theme-amber {
+    --body-background-color: #111111;
+    --background-color: #1c1c1c;
+    --response-text-color: #FFBF00;
+    --command-color: #FFD700; /* A slightly brighter amber for commands */
+    --header-color: #333333;
+    --border-color: #FFBF00;
+    --shadow-color: rgba(255, 191, 0, 0.4);
+    --red-text-color: #FF8C00;
+    --suggestion-color: rgba(255, 191, 0, 0.4);
+    --scrollbar-thumb-color: #FFBF00;
+    --scrollbar-track-color: #1c1c1c;
+}
+
+.theme-retro {
+    --body-background-color: #1a1a1a;
+    --background-color: #222222;
+    --response-text-color: #90EE90; /* Light Green */
+    --command-color: #7CFC00; /* Lawn Green */
+    --header-color: #3a3a3a;
+    --border-color: #90EE90;
+    --shadow-color: rgba(144, 238, 144, 0.5);
+    --red-text-color: #FF6347; /* Tomato */
+    --suggestion-color: rgba(144, 238, 144, 0.4);
+    --scrollbar-thumb-color: #90EE90;
+    --scrollbar-track-color: #222222;
+}
+
+.theme-vaporwave {
+    --body-background-color: #0a001a;
+    --background-color: #1a0033;
+    --response-text-color: #00FFFF; /* Aqua */
+    --command-color: #FF00FF; /* Magenta */
+    --header-color: #330066;
+    --border-color: #FF00FF;
+    --shadow-color: rgba(255, 0, 255, 0.6);
+    --red-text-color: #FF69B4; /* Hot Pink */
+    --suggestion-color: rgba(0, 255, 255, 0.4);
+    --scrollbar-thumb-color: #FF00FF;
+    --scrollbar-track-color: #1a0033;
+}
+
+.theme-light {
+    --body-background-color: #f0f0f0;
+    --background-color: #ffffff;
+    --response-text-color: #333333;
+    --command-color: #000000;
+    --header-color: #e0e0e0;
+    --border-color: #cccccc;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --red-text-color: #cc0000;
+    --suggestion-color: rgba(51, 51, 51, 0.4);
+    --scrollbar-thumb-color: #cccccc;
+    --scrollbar-track-color: #f0f0f0;
+}
+
+.theme-monokai {
+    --body-background-color: #1a1a1a;
+    --background-color: #272822;
+    --response-text-color: #F8F8F2;
+    --command-color: #E6DB74; /* Yellow */
+    --header-color: #3e3d32;
+    --border-color: #F92672; /* Pink */
+    --shadow-color: rgba(249, 38, 114, 0.4);
+    --red-text-color: #FD971F; /* Orange */
+    --suggestion-color: rgba(248, 248, 242, 0.4);
+    --scrollbar-thumb-color: #F92672;
+    --scrollbar-track-color: #272822;
+}
+
+.theme-dracula {
+    --body-background-color: #1e1e2e;
+    --background-color: #282a36;
+    --response-text-color: #f8f8f2;
+    --command-color: #50fa7b; /* Green */
+    --header-color: #44475a;
+    --border-color: #bd93f9; /* Purple */
+    --shadow-color: rgba(189, 147, 249, 0.4);
+    --red-text-color: #ff5555;
+    --suggestion-color: rgba(248, 248, 242, 0.4);
+    --scrollbar-thumb-color: #bd93f9;
+    --scrollbar-track-color: #282a36;
+}
+
+.theme-high-contrast {
+    --body-background-color: #000000;
+    --background-color: #000000;
+    --response-text-color: #FFFFFF;
+    --command-color: #FFFFFF;
+    --header-color: #333333;
+    --border-color: #FFFFFF;
+    --shadow-color: rgba(255, 255, 255, 0.5);
+    --red-text-color: #FF0000;
+    --suggestion-color: rgba(255, 255, 255, 0.4);
+    --scrollbar-thumb-color: #FFFFFF;
+    --scrollbar-track-color: #000000;
+}
+
+/* --- GENERAL STYLES --- */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -8,91 +136,53 @@
     font-weight: 200;
 }
 
-
 body {
-    background-color: #1a1c1d; /* Dark background color for the page */
+    background-color: var(--body-background-color);
     font-family: 'Courier New', Courier, monospace;
     margin: 0;
-    overflow: hidden; /* Prevent scrollbars on the main page FOR DESKTOP */
-}
-
-.mainbody{
-    width: 100%;
-    height: 100vh;
-    position: relative;
-    top: 0;
-    left: 0;
-}
-
-.phoneMood{
-    display: none;
-}
-
-/* New styles for the input wrapper and suggestion text */
-.input-wrapper {
-    position: relative;
-    display: flex;
-    flex-grow: 1;
-}
-
-#commands {
-    position: relative; /* To ensure it sits on top of the suggestion */
-    z-index: 2;
-    background-color: transparent; /* Make sure the background is clear to see the suggestion */
-}
-
-.suggestion {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 1.2rem;
-    z-index: 1;
-    color: rgba(0, 255, 0, 0.4); /* Semi-transparent green */
-    pointer-events: none; /* Allows clicks to pass through to the input */
-    white-space: nowrap;
     overflow: hidden;
 }
 
+.mainbody {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
 
-/* --- Terminal Container Styling --- */
+.phoneMood {
+    display: none;
+}
+
+/* --- TERMINAL STYLES (USING CSS VARIABLES) --- */
 #terminal {
     position: absolute;
     top: 50px;
     left: 50px;
     width: 1150px;
     height: 600px;
-    background-color: #0f0f0f; /* Matte black background */
-    border: 2px solid #00ff00; /* Green border */
+    background-color: var(--background-color);
+    border: 2px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5); /* Green shadow */
+    box-shadow: 0 0 20px var(--shadow-color);
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Keeps content inside the rounded corners */
-    min-width: 300px; /* Minimum size constraints */
+    overflow: hidden;
+    min-width: 300px;
     min-height: 200px;
     scroll-behavior: smooth;
 }
 
-/* --- Terminal Header --- */
 .terminal-header {
-    background-color: #3c3c3c;
+    background-color: var(--header-color);
     padding: 8px;
     display: flex;
     align-items: center;
-    cursor: move; /* Indicates the header is draggable */
-    user-select: none; /* Prevents text selection while dragging */
+    cursor: move;
+    user-select: none;
 }
 
-.buttons {
-    display: flex;
-}
-
-.btn {
-    height: 12px;
-    width: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
+.buttons { display: flex; }
+.btn { height: 12px; width: 12px; border-radius: 50%; margin-right: 8px; }
 .red { background-color: #ff5f56; }
 .yellow { background-color: #ffbd2e; }
 .green { background-color: #27c93f; }
@@ -105,194 +195,111 @@ body {
     text-align: center;
 }
 
-
-
-/* --- Terminal Body --- */
 #terminal-body {
     padding: 15px;
-    color: #00ff00; /* Green text color */
-    flex-grow: 1; /* Makes the body fill the available space */
-    overflow-y: auto; /* Adds a scrollbar if content overflows */
-    overflow-x: hidden; /* --- FIX --- Prevent horizontal scrollbars */
+    color: var(--response-text-color);
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-#terminal-body p {
-    margin: 0 0 5px 0;
-}
+#terminal-body p { margin: 0 0 5px 0; }
 
-.cursor {
-    background-color: #00ff00;
-    animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-    from, to { color: transparent; }
-    50% { color: #00ff00; }
-}
-
-
-/* --- Resizer Handle --- */
 .resizer {
     position: absolute;
     right: 0;
     bottom: 0;
     width: 15px;
     height: 15px;
-    cursor: se-resize; /* South-East resize cursor */
+    cursor: se-resize;
 }
 
-.redtext{
-    color: red;
-}
+.redtext { color: var(--red-text-color); }
+.midiumfont { font-size: 1.2rem; }
 
-.midiumfont{
-    font-size: 1.2rem;
+/* --- INPUT & SUGGESTION STYLES --- */
+.input-container { padding-top: 8px; width: 100%; }
+.inputbox { display: flex; align-items: center; width: 100%; }
+.input-wrapper { position: relative; display: flex; flex-grow: 1; }
 
-}
-
-.inputbox {
-    display: flex;
-    align-items: center;
-    padding-top: 8px;
-    width: 100%; /* --- FIX --- Force the container to respect parent's width */
-}
-
-/* Style for the prompt text (e.g., "shoron@portfolio: ~") */
 .dir {
-    color: #00ff00;
-    margin-right: 8px;  /* Add a little space after the prompt */
-    white-space: nowrap; /* Prevent the prompt from wrapping to a new line */
+    color: var(--command-color);
+    margin-right: 8px;
+    white-space: nowrap;
 }
-
 
 #commands {
-    flex-grow: 1; /* This makes the input field take up all remaining space */
+    position: relative;
+    z-index: 2;
+    flex-grow: 1;
     font-size: 1.2rem;
     background-color: transparent;
     border: none;
     outline: none;
-    color: #00ff00;
-    caret-color: #00ff00;
+    color: var(--command-color);
+    caret-color: var(--command-color);
     caret-shape: underscore;
-    min-width: 0; /* --- FIX --- The most important change. Allows input to shrink. */
+    min-width: 0;
 }
 
-/* A couple of extra styles from your HTML */
-.midiumfont {
-    font-size: 1.1rem; /* You can adjust this */
-}
-
-.redtext {
-    color: #ff5f56;
-}
-
-.contentbox{
-    padding: 5px 5px 5px 0;
-
-    .contenttext{
-        font-size: 1.1rem;
-        padding-bottom: 2px;
-
-        p{
-            padding: 5px 0;
-        }
-
-    }
-}
-
-.oldcommands{
-    padding-top: 10px;
-    padding-bottom: 8px;
+.suggestion {
+    position: absolute;
+    top: 0;
+    left: 0;
     font-size: 1.2rem;
+    z-index: 1;
+    color: var(--suggestion-color);
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-::-webkit-scrollbar {
-  width: 5px;
-    padding: 0 1px 0 1px;
-    opacity: 0;
-    transition: 0.15s;
+/* --- CONTENT & SCROLLBAR STYLES --- */
+.contentbox {
+    padding: 5px 5px 5px 0;
 }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
+.contenttext { font-size: 1.1rem; padding-bottom: 2px; color: var(--response-text-color); }
+.contenttext p { padding: 5px 0; }
+.oldcommands { padding-top: 10px; padding-bottom: 8px; font-size: 1.2rem; color: var(--command-color); }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #00ff00;
-}
+::-webkit-scrollbar { width: 5px; padding: 0 1px; opacity: 0; transition: 0.15s; }
+::-webkit-scrollbar-track { background: var(--scrollbar-track-color); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-color); }
+::-webkit-scrollbar-thumb:hover { opacity: 1; }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #00ff00;
-    opacity: 1;
-}
+.whitetext { color: white; }
 
-.whitetext{
-    color: white;
-}
-
-.infobox{
+.infobox {
     padding: 5px 0 5px 20px;
-    border-left: 3px solid #00ff00;
+    border-left: 3px solid var(--border-color);
     margin-top: 10px;
     margin-bottom: 5px;
     margin-left: 20px;
 }
 
-
-/* ======================================================================= */
-/* --- RESPONSIVE STYLES FOR MOBILE --- */
-/* ======================================================================= */
+/* --- RESPONSIVE STYLES --- */
 @media (max-width: 768px) {
-    /* Allow the body to scroll if content somehow overflows the viewport */
-    body {
-        overflow: auto;
-    }
+    body { overflow: auto; }
+    ::-webkit-scrollbar { display: none; }
+    .phoneMood { display: block; }
 
-    ::-webkit-scrollbar{
-        display: none;
-    }
-
-    .phoneMood{
-        display: block;
-    }
-    /* --- Terminal Fullscreen "Messaging App" Style --- */
     #terminal {
-        position: static;   /* Change from absolute to static to fill the screen */
-        width: 100vw;       /* Full viewport width */
-        height: 100vh;      /* Full viewport height */
-        top: 0;
-        left: 0;
-        border: none;       /* Remove desktop border, radius, and shadow */
+        position: static;
+        width: 100vw;
+        height: 100vh;
+        border: none;
         border-radius: 0;
         box-shadow: none;
-        min-width: unset;   /* Remove desktop min-size constraints */
+        min-width: unset;
         min-height: unset;
     }
 
-    /* --- Hide Desktop-Only UI Elements --- */
-    .terminal-header,
-    .resizer {
-        display: none;
-    }
+    .terminal-header, .resizer { display: none; }
+    #terminal-body { padding: 10px; }
+    #ascii-art { font-size: 0.7rem; }
 
-    /* --- Adjustments for better mobile experience --- */
-    #terminal-body {
-        padding: 10px; /* Slightly adjust padding for smaller screens */
-    }
-
-    #ascii-art{
-        font-size: 0.7rem;
-    }
-
-    /* Adjust font sizes for better readability on small devices */
-    .midiumfont, #commands, .oldcommands, .contentbox .contenttext {
-        font-size: 0.8rem;
-    }
-
-    #suggestion-text {
+    .midiumfont, #commands, .oldcommands, .contentbox .contenttext, .suggestion {
         font-size: 0.8rem;
     }
 }

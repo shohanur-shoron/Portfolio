@@ -76,7 +76,7 @@ def get_all_commands(request):
     
     command_names = list(Commands.objects.values_list('name', flat=True).distinct())
     
-    predefined_commands = ['help', 'dir', 'chat', 'quit', 'clear', 'cls']
+    predefined_commands = ['help', 'dir', 'chat', 'quit', 'clear', 'cls', 'theme']
     command_names.extend(predefined_commands)
     
     command_names = sorted(list(set(command_names)))
