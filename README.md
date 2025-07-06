@@ -1,8 +1,9 @@
 # 🤖 Jarvis: The AI-Powered Portfolio Terminal
 
-![Jarvis Banner](https://i.imgur.com/your-banner-image.png)  <!-- Replace with your banner image -->
+![image](https://github.com/user-attachments/assets/882eb12a-b040-4d26-8f33-817b9c121607)
 
-**Live Demo:** [your-demo-link.com](https://your-demo-link.com) <!-- Replace with your live demo link -->
+
+**Live Demo:** [shoron.dev](https://shohanurrahman.pythonanywhere.com)
 
 ## 🚀 Introduction
 
@@ -114,6 +115,7 @@ In command mode, you can use the following commands:
 *   `chat`: Enters chat mode.
 *   `theme <theme-name>`: Changes the terminal's color theme.
 *   `clear` or `cls`: Clears the terminal screen.
+*   and many more command
 
 ### Chat Mode
 
@@ -122,13 +124,15 @@ In chat mode, you can have a natural conversation with the AI assistant. Ask it 
 *   "What are your skills?"
 *   "Tell me about your projects."
 *   "What is your experience with Python?"
+*   and whatever you want to ask
 
 To exit chat mode, type `quit`.
 
 ## 📸 Screenshots
 
-![Screenshot 1](https://i.imgur.com/your-screenshot-1.png) <!-- Replace with your screenshot -->
-![Screenshot 2](https://i.imgur.com/your-screenshot-2.png) <!-- Replace with your screenshot -->
+![image](https://github.com/user-attachments/assets/ca18c222-6356-4144-bb14-5e846e079149)
+![image](https://github.com/user-attachments/assets/f37fca26-e679-4bf8-a20f-bbcb7ad681b8)
+
 
 ## 🚀 Future Improvements
 
@@ -143,6 +147,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## 📬 Contact
 
-*   **Email:** [shoron.rahman@email.com](mailto:shoron.rahman@email.com)
-*   **LinkedIn:** [linkedin.com/in/your-linkedin-profile](https://linkedin.com/in/your-linkedin-profile)
-*   **GitHub:** [github.com/your-username](https://github.com/your-username)
+*   **Email:** [shorons38@email.com](mailto:shorons38@email.com)
+*   **LinkedIn:** [linkedin.com/in/shohanur-rahman](https://www.linkedin.com/in/shohanur-rahman-4a935232a/)
+*   **GitHub:** [github.com/shohanur-shoron](https://github.com/shohanur-shoron)
